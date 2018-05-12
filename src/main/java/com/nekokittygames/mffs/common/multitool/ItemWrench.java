@@ -30,7 +30,6 @@ import com.nekokittygames.mffs.common.tileentity.TileEntityAreaDefenseStation;
 import com.nekokittygames.mffs.common.tileentity.TileEntityMachines;
 import com.nekokittygames.mffs.common.tileentity.TileEntityProjector;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -40,6 +39,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
@@ -56,32 +56,14 @@ public class ItemWrench extends ItemMultitool  implements IToolWrench {
 
 	@Override
 	@Optional.Method(modid = "BuildCraftAPI|core")
-	public boolean canWrench(EntityPlayer player, BlockPos blockPos) {
-		if (this.consumePower(player.inventory.getCurrentItem(), 1000, true)) {
-			return true;
-		}
-		return false;
+	public boolean canWrench(EntityPlayer player, EnumHand hand, ItemStack wrench, RayTraceResult rayTrace) {
+		return consumePower(wrench, 1000, true);
 	}
 
 	@Override
 	@Optional.Method(modid = "BuildCraftAPI|core")
-	public void wrenchUsed(EntityPlayer player, BlockPos blockPos) {
-		this.consumePower(player.inventory.getCurrentItem(), 1000, false);
-	}
-
-	@Override
-	@Optional.Method(modid = "BuildCraftAPI|core")
-	public boolean canWrench(EntityPlayer player, Entity entity) {
-		if (this.consumePower(player.inventory.getCurrentItem(), 1000, true)) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	@Optional.Method(modid = "BuildCraftAPI|core")
-	public void wrenchUsed(EntityPlayer player, Entity entity) {
-		this.consumePower(player.inventory.getCurrentItem(), 1000, false);
+	public void wrenchUsed(EntityPlayer player, EnumHand hand, ItemStack wrench, RayTraceResult rayTrace) {
+		consumePower(wrench, 1000, false);
 	}
 
 	@Override
